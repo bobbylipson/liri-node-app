@@ -11,6 +11,14 @@ var spotify = new Spotify(keys.spotify);
 var request = require('request');
 var fs = require('fs');
 
+var searchItem = "";
+    for(i = 3; i < process.argv.length; i++) {
+        searchItem = searchItem +  process.argv[i] + " ";
+    }
+var runThis = function(argOne, argTwo) {
+    pick(argOne, argTwo);
+};
+
 var getMyTweets = function() {
  
     var client = new twitter(keys.twitterKeys);
@@ -66,8 +74,9 @@ var getMeMovie = function(movieName) {
         //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         //console.log(response.statusCode);
         //console.log(error);
+        console.log(movieName);
         if(!error && response.statusCode == 200) {
-            
+    
             var jsonData = JSON.parse(body);
 
             console.log('Title: ' + jsonData.Title);
@@ -108,7 +117,7 @@ var pick = function(caseData, functionData) {
             getMeSpotify(functionData);
             break;
         case 'movie-this':
-            getMeMovie(functionData);
+            getMeMovie(searchItem);
             break;
         case 'do-what-it-says':
             doWhatItSays();
@@ -118,8 +127,5 @@ var pick = function(caseData, functionData) {
     }
 }
 
-var runThis = function(argOne, argTwo) {
-    pick(argOne, argTwo);
-};
 
 runThis(process.argv[2], process.argv[3]);
